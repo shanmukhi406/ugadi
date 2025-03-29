@@ -8,7 +8,8 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(45deg, #ffcc00, #ff6600);
+            background: url('image.png') ;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,7 +20,7 @@
             flex-direction: column;
         }
         .container {
-            color: white;
+            color: rgb(16, 15, 15);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         h1 {
@@ -41,7 +42,7 @@
             font-weight: bold;
         }
         .puranas-message {
-            color: rgb(225, 238, 238);
+            color: rgb(8, 8, 8);
         }
         button {
             margin-top: 20px;
@@ -68,6 +69,8 @@
     </style>
 </head>
 <body>
+    <audio id="ugadiAudio" src="https://www.fesliyanstudios.com/play-mp3/387"> </audio>
+
     <canvas id="confetti"></canvas>
     <canvas id="fireworks"></canvas>
     <div class="container">
@@ -82,6 +85,7 @@
 
     <script>
         function showUgadi() {
+            document.getElementById("ugadiAudio").play();
             document.getElementById("ugadiTitle").style.display = "block";
             document.getElementById("ugadiMessage").style.display = "block";
             document.getElementById("celebrateButton").style.display = "inline-block";
