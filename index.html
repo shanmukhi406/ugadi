@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>విశ్వనామ ఉగాది శుభాకాంక్షలు</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ffcc00, #ff6600);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+            flex-direction: column;
+        }
+        .container {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 3em;
+            animation: glow 2s infinite alternate;
+            display: none;
+        }
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #fff; }
+            100% { text-shadow: 0 0 20px #ff0; }
+        }
+        .message, .hidden-message, .puranas-message {
+            font-size: 1.5em;
+            margin-top: 10px;
+            display: none;
+        }
+        .hidden-message {
+            color: yellow;
+            font-weight: bold;
+        }
+        .puranas-message {
+            color: rgb(225, 238, 238);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff3300;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+    <canvas id="fireworks"></canvas>
+    <div class="container">
+        <button onclick="showUgadi()">ఉగాది గురించి తెలుసుకోండి</button>
+        <h1 id="ugadiTitle">శుభాకాంక్షలు! విశ్వనామ ఉగాది</h1>
+        <p class="message" id="ugadiMessage">ఉగాది అనేది కొత్త సంవత్సరం ప్రారంభం. ఇది భారతదేశంలో ముఖ్యంగా ఆంధ్రప్రదేశ్, తెలంగాణ మరియు కర్ణాటకలో జరుపుకుంటారు. ఈ రోజు ప్రత్యేకంగా ఉగాది పచ్చడి తినడం ఆనవాయితీ. ఇందులో తీపి, పులుపు, చేదు, ఉప్పు, కారం మరియు వగరు వంటి అనేక రుచులు ఉంటాయి. ఇది జీవితంలో ఉన్న అన్ని అనుభవాలను గుర్తుచేస్తుంది.</p>
+        <button id="celebrateButton" onclick="celebrateUgadi()" style="display: none;">సందేశాన్ని చూపించండి</button>
+        <p id="hiddenMessage" class="hidden-message">మీ జీవితంలో సంతోషం, శుభం కలగాలని కోరుకుంటున్నాను! 🎉</p>
+        <button id="puranasButton" onclick="showPuranas()" style="display: none;">పురాణాల కథ తెలుసుకోండి</button>
+        <p id="puranasMessage" class="puranas-message">ఉగాది పచ్చడి మహత్యం పురాణాల్లో కూడా ప్రస్తావించబడింది. ఒకానొక కాలంలో దేవతలు మరియు అసురులు అమృతాన్ని పొందేందుకు పాలసముద్రాన్ని మధించారు. ఆ సమయంలో వారి ముందు తీపి, చేదు, ఉప్పు, పులుపు, కారం, వగరు వంటి అనేక అనుభవాలు వచ్చాయి. దేవతలు వాటిని సహించి అమృతాన్ని పొందారు. అదే విధంగా మన జీవితంలో కూడా ఈ రుచులు ఎదురవుతాయి. ఉగాది పచ్చడిని తినడం ద్వారా మనం జీవితం ఎప్పుడూ ఒకేలా ఉండదని, అన్ని అనుభవాలను స్వీకరించాలనే సందేశాన్ని పొందుతాం.</p>
+    </div>
+
+    <script>
+        function showUgadi() {
+            document.getElementById("ugadiTitle").style.display = "block";
+            document.getElementById("ugadiMessage").style.display = "block";
+            document.getElementById("celebrateButton").style.display = "inline-block";
+        }
+
+        function celebrateUgadi() {
+            document.getElementById("hiddenMessage").style.display = "block";
+            document.getElementById("puranasButton").style.display = "inline-block";
+            animateConfetti();
+            startFireworks();
+        }
+
+        function showPuranas() {
+            document.getElementById("puranasMessage").style.display = "block";
+        }
+
+        // Confetti Effect
+        const canvas = document.getElementById("confetti");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiParticles = [];
+        for (let i = 0; i < 200; i++) {
+            confettiParticles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 6 + 2,
+                dx: Math.random() * 2 - 1,
+                dy: Math.random() * 2 + 1,
+                color: `hsl(${Math.random() * 360}, 100%, 50%)`
+            });
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiParticles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+        }
+
+        function updateConfetti() {
+            confettiParticles.forEach(p => {
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.y > canvas.height) p.y = 0;
+            });
+        }
+
+        function animateConfetti() {
+            drawConfetti();
+            updateConfetti();
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Fireworks Effect
+        const fireworksCanvas = document.getElementById("fireworks");
+        const fireworksCtx = fireworksCanvas.getContext("2d");
+        fireworksCanvas.width = window.innerWidth;
+        fireworksCanvas.height = window.innerHeight;
+
+        const fireworks = [];
+        
+        function createFirework(x, y) {
+            for (let i = 0; i < 100; i++) {
+                fireworks.push({
+                    x: x,
+                    y: y,
+                    dx: Math.random() * 4 - 2,
+                    dy: Math.random() * 4 - 2,
+                    life: Math.random() * 40 + 40,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+        }
+
+        function drawFireworks() {
+            fireworksCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+            fireworks.forEach((p, i) => {
+                fireworksCtx.beginPath();
+                fireworksCtx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                fireworksCtx.fillStyle = p.color;
+                fireworksCtx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                p.life--;
+                if (p.life <= 0) fireworks.splice(i, 1);
+            });
+        }
+
+        function startFireworks() {
+            setInterval(() => {
+                createFirework(Math.random() * fireworksCanvas.width, Math.random() * fireworksCanvas.height);
+            }, 500);
+            setInterval(drawFireworks, 30);
+        }
+    </script>
+</body>
+</html>
